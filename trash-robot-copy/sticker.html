@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <!--
+
+
+    -->
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwDwAA7/cAAO/nAADjVwAA6rcAAOl3AADv9wAA7/cAAOkXAADv9wAA6HcAAOt3AADpdwAA6HcAAO/3AADwDwAA" rel="icon" type="image/x-icon">
+
+
+    <!--Stop Google:-->
+    <META NAME="robots" CONTENT="noindex,nofollow">
+<script src = "geometron.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+
+</head>
+<body>    
+
+<div id = "qrcode"></div>
+<canvas id="sticker_canvas" width="400" height="600"></canvas>
+<div style = "display:none">
+    <canvas id ="geometron_canvas"></canvas>
+</div>
+<img id = "main_image"/>
+<br>
+<A HREF ="sticker-icon.html">sticker-icon.html</A>
+<A HREF ="geometron-icon.html">geometron-icon.html</A>
+
+<script>
+
+sticker_canvas  =document.getElementById("sticker_canvas");
+ctx_sticker = sticker_canvas.getContext("2d");
+
+
+codesquaresize = 512;
+marginsize = 40;
+fontsize = 12;
+globalurl = window.location.href;
+
+qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: globalurl,
+	width: 180,
+	height: 180,
+	colorDark : "#000000",
+	colorLight : "#ffffff",
+	correctLevel : QRCode.CorrectLevel.H
+});
+
+qrcodecanvas = document.getElementById("qrcode").querySelector("canvas");
+ctx_sticker.drawImage(qrcodecanvas, 10, 10,180,180);
+
+geometron_glyph = "0306,0335,0331,0362,0203,0203,0335,0335,0350,0335,0312,0337,0203,0335,0335,0335,0335,0203,0335,0335,0335,0335,0336,0335,0203,0203,0334,0334,0334,0334,0334,0337,0203,0334,0334,0334,0334,0203,0354,0335,0336,0331,0335,0335,0335,0335,0304,";//hexagram
+
+geometron_glyph = "0336,0336,0332,0331,0332,0333,0337,0331,0337,0336,0332,0337,0200,0336,0333,0337,0333,0200,0330,0332,0350,0335,0201,0335,0201,0335,0335,0335,0342,0334,0201,0335,0201,0335,0330,0330,0336,0331,0335,0335,0335,0342,0337,0332,0342,0330,0335,0335,0335,0336,0342,0335,0335,0337,0201,0334,0201,0300,0330,0332,0336,0330,0332,0331,0336,0330,0337,01107,01105,01117,01115,01105,01124,01122,01117,01116,0331,0331,0331,0331,0331,0332,0332,0331,0332,0332,0332,0332,0332,01110,01131,01120,01105,01122,01103,01125,01102,01105,";//hypercube
+
+geometron_canvas = document.getElementById("geometron_canvas");
+
+
+mainGVM = new GVM(geometron_canvas,180,180);
+mainGVM.importbytecode(hypercube);
+mainGVM.style.line0  = 2;
+mainGVM.style.color0 = "black";
+mainGVM.unit = 30;
+//mainGVM.drawGlyph(geometron_glyph);
+//ctx_sticker.drawImage(geometron_canvas, 210, 10);
+
+
+
+
+textmessage = "TRASH ROBOT DOT NET";
+
+ctx_sticker.font = "30px Arial";          // Sets font size and family
+ctx_sticker.fillStyle = "black";           // Sets the text color
+
+ctx_sticker.fillText(textmessage, 10, 220);
+
+//image_url = "https://www.trashrobot.net/DIRT-WIZARD/skyline-square.png";
+
+
+var httpc = new XMLHttpRequest();
+httpc.onreadystatechange = function(){
+    if (this.readyState == 4 && this.status == 200) {
+        image_url = this.responseText;
+        document.getElementById("main_image").src = image_url;
+        ctx_sticker.drawImage(p5canvas,10,240,380,380);    
+    
+    }
+};
+httpc.open("GET", "load-file.php?filename=sticker-image-url.txt", true);
+httpc.send();
+
+main_image = document.getElementById("main_image");
+main_image.onload = function(){
+    ctx_sticker.filter = "grayscale(100%) brightness(200%)";
+    ctx_sticker.drawImage(main_image,10,240,380,380*main_image.height/main_image.width);
+   // p5canvas = document.getElementsByTagName("MAIN")[0].getElementsByTagName("CANVAS");
+}
+
+//document.getElementById("main_image").src = image_url;
+
+icon = [];
+
+
+function setup(){
+    
+    createCanvas(380,380);
+
+    p5canvas = document.getElementsByTagName("MAIN")[0].getElementsByTagName("CANVAS")[0];
+    ctx_sticker.drawImage(p5canvas,10,240,380,380);    
+    
+    
+    var httpcicon = new XMLHttpRequest();
+    httpcicon.onreadystatechange = function(){
+        if (this.readyState == 4 && this.status == 200) {
+            icon = JSON.parse(this.responseText);
+            drawicon();
+        }
+    };
+    httpcicon.open("GET", "load-file.php?filename=icon.json", true);
+    httpcicon.send();
+
+}
+
+
+
+function draw(){
+    //p5canvas = document.getElementsByTagName("MAIN")[0].getElementsByTagName("CANVAS");
+        ctx_sticker.drawImage(p5canvas,10,240,380,380);    
+
+}
+
+
+function drawicon(){
+    clear();
+    //background(159,135,103);
+    for(var strokeindex = 0;strokeindex < icon.length;strokeindex++){
+        for(var pointindex = 1;pointindex < icon[strokeindex].points.length;pointindex++){
+            
+            stroke(icon[strokeindex].color);
+            strokeWeight(Math.round(0.01*width*icon[strokeindex].strokewidth));
+            line(0.01*width*icon[strokeindex].points[pointindex - 1].x,0.01*width*icon[strokeindex].points[pointindex - 1].y,0.01*width*icon[strokeindex].points[pointindex].x,0.01*width*icon[strokeindex].points[pointindex].y);
+        }
+    }
+}
+
+
+
+var httpcHypercube = new XMLHttpRequest();
+httpcHypercube.onreadystatechange = function(){
+    if (this.readyState == 4 && this.status == 200) {
+        hypercube = JSON.parse(this.responseText);
+        mainGVM.importbytecode(hypercube);    
+        currentjson = {};
+        var httpcjson = new XMLHttpRequest();
+            httpcjson.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                currentjson = JSON.parse(this.responseText);
+                mainGVM.drawGlyph(currentjson.glyph);
+                ctx_sticker.drawImage(geometron_canvas, 210, 10);
+
+            }
+        };
+        httpcjson.open("GET", "load-file.php?filename=geometron-icon.json", true);
+        httpcjson.send();
+    }
+};
+httpcHypercube.open("GET", "load-file.php?filename=hypercube.json", true);
+httpcHypercube.send();
+
+</script>
+<style>
+#geometron_canvas{
+    display:none;
+}
+#main_image{
+    display:none;
+    width:100px;
+}
+main canvas{
+    display:none;
+}
+input{
+    border:solid;
+    font-family:courier;
+}
+body{
+    font-family:Arial;
+}
+canvas,img{
+    border:solid;
+    border-width:4px;
+    border-radius:10px;
+}
+#qrcode{
+    display:none;
+}
+</style>
+</body>
+</html>

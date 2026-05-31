@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <!-- 
+social media platform
+    -->
+    <title>social media platform</title>
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAA4AcAAO/3AADH9wAA7/cAAO/3AADEdwAA7/cAAOw3AADH9wAA7HcAAO/3AADEFwAA7/cAAOAHAAD//wAA" rel="icon" type="image/x-icon">
+
+    <!--Stop Google:-->
+<META NAME="robots" CONTENT="noindex,nofollow">
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+    <a href = "index.html">index.html</a>
+    <div id = "qrcode"></div>
+    <h1>social media platform</h1>
+    <h1>App Store</h1>
+    <div id ="appstore"></div>
+    <a href="edit-files.html">edit-files.html</a>
+<script>
+
+codesquaresize = 400;
+qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: window.location.href,
+	width: codesquaresize,
+	height: codesquaresize,
+	colorDark : "#000000",
+	colorLight : "#ffffff",
+	correctLevel : QRCode.CorrectLevel.H
+});
+
+if(innerWidth > innerHeight){
+    squaresize = innerHeight - 200;
+}
+else{
+    squaresize = innerWidth - 200;
+    
+}
+
+
+files = [];
+
+var httpcUpload = new XMLHttpRequest();
+httpcUpload.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        files = JSON.parse(this.responseText);
+        loadappstore();
+    }
+};
+httpcUpload.open("GET", "list-files.php", true);
+httpcUpload.send();
+
+function loadappstore(){
+
+    for(var index = 0;index < files.length;index++) {
+        if(files[index].includes(".html") || files[index].includes(".HTML") ){
+            var newa = document.createElement("A");
+            newa.href = files[index];
+            newa.innerHTML = files[index];
+            document.getElementById("appstore").appendChild(newa);
+        }
+    }    
+}
+
+currentfile = "wall.txt";
+
+motd = "";
+var httpc = new XMLHttpRequest();
+httpc.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        motd = this.responseText;
+        document.getElementById("wall").value = motd;  
+    }
+};
+httpc.open("GET", "load-file.php?filename=" + currentfile, true);
+httpc.send();
+
+document.getElementById("wall").onkeyup = function() {
+    scroll = this.value;
+    data = encodeURIComponent(this.value);
+    var httpc = new XMLHttpRequest();
+    var url = "save-file.php";        
+    httpc.open("POST", url, true);
+    httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+    httpc.send("data="+data+"&filename=" + currentfile);//send text to save-file.php
+}
+
+
+directories = [];
+var httpc2 = new XMLHttpRequest();
+    httpc2.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        directories = JSON.parse(this.responseText);
+
+        var newa = document.createElement("A");
+        newa.innerHTML = "UP A LEVEL ../";
+        newa.href = "../";
+        document.getElementById("branches").appendChild(newa);
+        for(var index = 0;index < directories.length;index++) {
+            var newa = document.createElement("A");
+            newa.innerHTML = directories[index] + "/";
+            newa.href = directories[index] + "/";
+            document.getElementById("branches").appendChild(newa);
+        }
+    }
+};
+
+httpc2.open("GET", "list-branches.php", true);
+httpc2.send();
+
+
+</script>
+<style>
+#qrcode img{
+    display:block;
+    margin:auto;
+}
+#imagefeed img{
+    max-width:60%;
+    display:block;
+    margin:auto;
+}
+body{
+    font-family:Comic Sans MS;
+    background-color:#979496;        
+}
+a{
+    text-align:center;
+    color:blue;
+     background-color:#9f8767;
+   font-size:4em;
+    width:80%;
+    margin:auto;
+    display:block;
+    border:solid;
+    border-radius:0.5em;
+    border-width:5px;
+    margin-top:1em;
+    margin-bottom:0.5em;
+    overflow-x:scroll;
+}
+.signbox{
+    background-color:#9f8767;
+    width:70%;
+    border-radius:1em;
+    margin:auto;
+    margin-top:1em;
+    margin-bottom:1em;
+    padding:1em 1em 1em 1em;
+    border:solid;
+    
+}
+.signbox a{
+    color:blue;
+    font-size:4em;
+}
+.signbox p{
+    font-size:2em;
+}
+ #wall{
+        width:80%;
+        display:block;
+        margin:auto;
+        border:solid;
+        FONT-FAMILY:COMIC SANS MS;
+        BACKGROUND-COLOR:#9f8767;
+        font-size:2em;
+        height:20em;
+        padding:0.5em 0.5em 0.5em 0.5em;
+        border-radius:0.5em;
+    }
+.message{
+    border:solid;
+    width:90%;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    border-radius:0.5em;
+    border-width:5px;
+    font-size:2em;
+        background-color:#9f8767;
+    margin:auto;
+    margin-top:1em;
+    margin-bottom:1em;
+
+}
+canvas{
+    display:block;
+    border:solid;
+    margin:auto;
+}
+H1{
+    font-size:4em;
+    text-align:center;
+}
+</style>
+</body>
+</html>
