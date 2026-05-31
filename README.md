@@ -2,6 +2,10 @@
 
 # [physical-media](https://github.com/LafeLabs/physical-media/)
 
+![](sticker-image-1.png)
+
+![](sticker-image-2.png)
+
 ## [file set replicator](https://github.com/LafeLabs/physical-media/blob/main/replicate-file-set.php)
 
 ## Linux Install:
