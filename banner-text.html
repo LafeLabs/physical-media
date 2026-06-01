@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <!--
+    -->
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwDwAA7/cAAO/nAADjVwAA6rcAAOl3AADv9wAA7/cAAOkXAADv9wAA6HcAAOt3AADpdwAA6HcAAO/3AADwDwAA" rel="icon" type="image/x-icon">
+
+
+    <!--Stop Google:-->
+    <META NAME="robots" CONTENT="noindex,nofollow">
+</head>
+<body>    
+<h3>banner text:</h3>
+<input id = "bannertextinput"/>
+<br>
+<canvas id="sticker_canvas" width="400" height="100"></canvas>
+<br>
+<a href = "sticker.html">sticker.html</a>
+<A HREF ="sticker-meme.html">sticker-meme.html</A>
+<A HREF ="geometron-icon.html">geometron-icon.html</A>
+<a href = "sticker-image-url.html">sticker-image-url.html</a>
+<a href = "banner-text.html">banner-text.html</a>
+
+<script>
+
+sticker_canvas  =document.getElementById("sticker_canvas");
+ctx_sticker = sticker_canvas.getContext("2d");
+
+textmessage = "TRASH ROBOT DOT NET";
+
+//image_url = "https://www.trashrobot.net/DIRT-WIZARD/skyline-square.png";
+
+
+var httpc = new XMLHttpRequest();
+httpc.onreadystatechange = function(){
+    if (this.readyState == 4 && this.status == 200) {
+        textmessage = this.responseText;
+        ctx_sticker.font = "30px Arial";          // Sets font size and family
+        ctx_sticker.fillStyle = "black";           // Sets the text color
+        ctx_sticker.fillText(textmessage, 10,60);
+        document.getElementById("bannertextinput").value = textmessage;
+    }
+};
+httpc.open("GET", "load-file.php?filename=banner-text.txt", true);
+httpc.send();
+
+document.getElementById("bannertextinput").onchange = function(){
+    textmessage = this.value;
+    ctx_sticker.clearRect(0, 0, sticker_canvas.width, sticker_canvas.height);
+    ctx_sticker.fillText(textmessage, 10,60);
+    savetext();
+}
+
+function savetext(){
+    var httpc = new XMLHttpRequest();
+    httpc.open("POST", "save-file.php", true);
+    httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpc.send("data="+textmessage+"&filename=banner-text.txt");//send text to save-file.php
+}
+</script>
+<style>
+input{
+    border:solid;
+    font-size:2em;
+}
+body{
+    font-family:Arial;
+}
+canvas,img{
+    border:solid;
+    border-width:4px;
+    border-radius:10px;
+}
+#qrcode{
+    display:none;
+}
+</style>
+</body>
+</html>

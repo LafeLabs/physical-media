@@ -247,7 +247,7 @@ document.getElementById("clearbutton").onclick = function(){
 
 document.getElementById("postbutton").onclick = function(){
     //SAVE ICON AS icon.json
-    var url = "filesaver.php";        
+    var url = "save-file.php";        
     var httpc = new XMLHttpRequest();
     httpc.open("POST", url, true);
     httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

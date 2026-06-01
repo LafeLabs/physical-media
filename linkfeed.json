@@ -22,5 +22,13 @@
     {
         "url": "readme.html",
         "text": "readme.html"
+    },
+    {
+        "url": "sticker.html",
+        "text": "sticker.html"
+    },
+    {
+        "url": "sticker-image-url.html",
+        "text": "sticker-image-url.html"
     }
 ]
