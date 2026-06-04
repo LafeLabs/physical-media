@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <!-- 
+social media platform
+    -->
+    <title>sticker-image-url</title>
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAA4AcAAO/3AADH9wAA7/cAAO/3AADEdwAA7/cAAOw3AADH9wAA7HcAAO/3AADEFwAA7/cAAOAHAAD//wAA" rel="icon" type="image/x-icon">
+
+    <!--Stop Google:-->
+<META NAME="robots" CONTENT="noindex,nofollow">
+
+</head>
+<body>
+    <a href = "sticker.html">sticker.html</a>
+
+            <h1>IMAGE URL:</h1>
+            
+            <input id  ="imageurlinput"/>
+<img id = "main-image">
+<script>
+
+var httpc = new XMLHttpRequest();
+httpc.onreadystatechange = function(){
+    if (this.readyState == 4 && this.status == 200) {
+        image_url = this.responseText;
+        document.getElementById("main-image").src = image_url;
+        document.getElementById("imageurlinput").value = image_url;
+    }
+};
+httpc.open("GET", "load-file.php?filename=sticker-image-url.txt", true);
+httpc.send();
+
+//https://www.trashrobot.net/DIRT-WIZARD/skyline-square.png
+
+document.getElementById("imageurlinput").onchange = function(){
+    image_url = this.value;
+    document.getElementById("main-image").src = image_url;
+    var httpc = new XMLHttpRequest();
+    httpc.open("POST", "save-file.php", true);
+    httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpc.send("data="+image_url+"&filename=sticker-image-url.txt");//send text to filesaver.php
+}
+
+</script>
+<style>
+#main-image{
+    border:solid;
+    max-width:400px;
+}
+#imageurlinput{
+    width:90%;
+}
+</style>
+</body>
+</html>

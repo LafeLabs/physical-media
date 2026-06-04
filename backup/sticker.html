@@ -26,11 +26,10 @@
 </div>
 <img id = "main_image"/>
 <br>
-<a href = "edit-files.html">edit-files.html</a>
-<a href = "readme.html">readme.html</a>
-<a href = "sketch-icon.html">sketch-icon.html</a>
-<A HREF = "geometron-icon.html">geometron-icon.html</A>
-<a href = "image-url.html">image-url.html</a>
+<a href = "index.html">index.html</a>
+<A HREF ="sticker-meme.html">sticker-meme.html</A>
+<A HREF ="geometron-icon.html">geometron-icon.html</A>
+<a href = "sticker-image-url.html">sticker-image-url.html</a>
 <a href = "banner-text.html">banner-text.html</a>
 
 <script>
@@ -67,7 +66,7 @@ mainGVM = new GVM(geometron_canvas,180,180);
 mainGVM.importbytecode(hypercube);
 mainGVM.style.line0  = 2;
 mainGVM.style.color0 = "black";
-//mainGVM.unit = 80;
+mainGVM.unit = 80;
 //mainGVM.drawGlyph(geometron_glyph);
 //ctx_sticker.drawImage(geometron_canvas, 210, 10);
 
@@ -87,9 +86,6 @@ httpc.onreadystatechange = function(){
         ctx_sticker.font = "30px Arial";          // Sets font size and family
         ctx_sticker.fillStyle = "black";           // Sets the text color
         ctx_sticker.fillText(textmessage, 10,220);
-        ctx_sticker.fillText(textmessage, 10,520);
-        ctx_sticker.fillText(textmessage, 10,580);
-
         document.getElementById("bannertextinput").value = textmessage;
     }
 };
@@ -116,7 +112,7 @@ httpc.send();
 main_image = document.getElementById("main_image");
 main_image.onload = function(){
     ctx_sticker.filter = "grayscale(100%) brightness(200%)";
-    ctx_sticker.drawImage(main_image,10,230,180,180*main_image.height/main_image.width);
+    ctx_sticker.drawImage(main_image,10,240,380,380*main_image.height/main_image.width);
    // p5canvas = document.getElementsByTagName("MAIN")[0].getElementsByTagName("CANVAS");
 }
 
@@ -130,7 +126,8 @@ function setup(){
     createCanvas(380,380);
 
     p5canvas = document.getElementsByTagName("MAIN")[0].getElementsByTagName("CANVAS")[0];
-    ctx_sticker.drawImage(p5canvas,10,200,380,380);    
+    ctx_sticker.drawImage(p5canvas,10,240,380,380);    
+    
     
     var httpcicon = new XMLHttpRequest();
     httpcicon.onreadystatechange = function(){
@@ -148,7 +145,8 @@ function setup(){
 
 function draw(){
     //p5canvas = document.getElementsByTagName("MAIN")[0].getElementsByTagName("CANVAS");
-        ctx_sticker.drawImage(p5canvas,200,250,180,180);    
+        ctx_sticker.drawImage(p5canvas,10,240,380,380);    
+
 }
 
 
