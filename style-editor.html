@@ -129,7 +129,7 @@ httpc.onreadystatechange = function() {
         redraw();
     }
 };
-httpc.open("GET", "load-file.php?filename=geometron.json", true);
+httpc.open("GET", "load-file.php?filename=geometron-icon.json", true);
 httpc.send();    
 
 inputs[0].onchange = function() {
@@ -237,7 +237,7 @@ function savestyle(){
     var httpc = new XMLHttpRequest();
     httpc.open("POST", url, true);
     httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    httpc.send("data="+encodeURIComponent(JSON.stringify(currentjson,null,"    "))+"&filename=geometron.json");//send text to filesaver.php
+    httpc.send("data="+encodeURIComponent(JSON.stringify(currentjson,null,"    "))+"&filename=geometron-icon.json");//send text to filesaver.php
 
     redraw();
 }

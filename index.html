@@ -45,38 +45,61 @@ media = {
         "x":10,
         "y":10
     },
+    "qrcodes":[
+        {
+            "url":"self",
+            "width":140,
+            "x":20,
+            "y":10
+        },
+        {
+            "url":"https://trashrobot.net/",
+            "width":140,
+            "x":200,
+            "y":10
+        },
+        {
+            "url":"https://www.openstreetmap.org/#map=19/39.857099/-105.053909",
+            "width":140,
+            "x":10,
+            "y":200
+        }
+    ],
     "geometron":{
-        "x":210,
-        "y":10
+        "display":true,
+        "x":200,
+        "y":200
     },
     "icon":{
+        "display":true,
         "width":180,
         "x":200,
-        "y":250
+        "y":400
     },
     "image":{
-        "width":180,
-        "x":10,
-        "y":230
+        "display":true,
+        "width":120,
+        "x":20,
+        "y":420
     },
     "text":[
         {
-            "text":"THE MEDIUM IS THE MESSAGE 1",
+            "text":"THIS MEDIA",
             "size":22,
             "x":10,
-            "y":220
+            "y":180
         },
         {
-            "text":"THE MEDIUM IS THE MESSAGE 2",
+            "text":"TRASHROBOT.NET",
             "size":22,
-            "x":10,
-            "y":520
+            "x":180,
+            "y":180
         },
         {
-            "text":"THE MEDIUM IS THE MESSAGE 3",
+            "text":"NODE ON MAP",
             "size":22,
             "x":10,
-            "y":580
+            "y":370
         }
     ]
 };
@@ -90,7 +113,6 @@ media = {
 sticker_canvas  = document.getElementById("sticker_canvas");
 sticker_canvas.width = media.width;
 sticker_canvas.height = media.height;
-
 ctx_sticker = sticker_canvas.getContext("2d");
 
 
@@ -103,8 +125,9 @@ for(index = 0;index < media.text.length;index++){
 codesquaresize = 512;
 marginsize = 40;
 fontsize = 12;
-globalurl = window.location.href;
 
+/*
+globalurl = window.location.href;
 qrcode = new QRCode(document.getElementById("qrcode"), {
 	text: globalurl,
 	width: media.qrcode.width,
@@ -116,6 +139,34 @@ qrcode = new QRCode(document.getElementById("qrcode"), {
 
 qrcodecanvas = document.getElementById("qrcode").querySelector("canvas");
 ctx_sticker.drawImage(qrcodecanvas, media.qrcode.x, media.qrcode.y,media.qrcode.width,media.qrcode.width);
+*/
+
+
+for(var index = 0;index < media.qrcodes.length;index++){
+    if(media.qrcodes[index].url == "self"){
+        localurl = window.location.href;
+    }
+    else{
+        localurl = media.qrcodes[index].url;
+    }
+    var newdiv = document.createElement("div");
+    qrcode = new QRCode(newdiv, {
+    	text: localurl,
+    	width: media.qrcodes[index].width,
+    	height: media.qrcodes[index].width,
+    	colorDark : "#000000",
+    	colorLight : "#ffffff",
+    	correctLevel : QRCode.CorrectLevel.H
+    });    
+    
+    qrcodecanvas = newdiv.querySelector("canvas");
+    
+    ctx_sticker.drawImage(qrcodecanvas, media.qrcodes[index].x, media.qrcodes[index].y,media.qrcodes[index].width,media.qrcodes[index].width);
+    
+
+}
+
+
 
 geometron_glyph = "0306,0335,0331,0362,0203,0203,0335,0335,0350,0335,0312,0337,0203,0335,0335,0335,0335,0203,0335,0335,0335,0335,0336,0335,0203,0203,0334,0334,0334,0334,0334,0337,0203,0334,0334,0334,0334,0203,0354,0335,0336,0331,0335,0335,0335,0335,0304,";//hexagram
 
@@ -167,17 +218,22 @@ httpc.onreadystatechange = function(){
     if (this.readyState == 4 && this.status == 200) {
         image_url = this.responseText;
         document.getElementById("main_image").src = image_url;
-        ctx_sticker.drawImage(p5canvas,media.icon.x,media.icon.y,media.icon.width,media.icon.width);    
+        if(media.icon.display){
+            ctx_sticker.drawImage(p5canvas,media.icon.x,media.icon.y,media.icon.width,media.icon.width);                
+        }
+
     
     }
 };
-httpc.open("GET", "load-file.php?filename=sticker-image-url.txt", true);
+httpc.open("GET", "load-file.php?filename=image-url.txt", true);
 httpc.send();
 
 main_image = document.getElementById("main_image");
 main_image.onload = function(){
     ctx_sticker.filter = "grayscale(100%) brightness(200%)";
-    ctx_sticker.drawImage(main_image,media.image.x,media.image.y,media.image.width,media.image.width*main_image.height/main_image.width);
+    if(media.image.display){
+        ctx_sticker.drawImage(main_image,media.image.x,media.image.y,media.image.width,media.image.width*main_image.height/main_image.width);        
+    }
    // p5canvas = document.getElementsByTagName("MAIN")[0].getElementsByTagName("CANVAS");
 }
 
@@ -191,7 +247,11 @@ function setup(){
     createCanvas(380,380);
 
     p5canvas = document.getElementsByTagName("MAIN")[0].getElementsByTagName("CANVAS")[0];
-    ctx_sticker.drawImage(p5canvas,media.icon.x,media.icon.y,media.icon.width,media.icon.width);    
+
+    if(media.icon.display){
+        ctx_sticker.drawImage(p5canvas,media.icon.x,media.icon.y,media.icon.width,media.icon.width);                
+    }
+
     
     var httpcicon = new XMLHttpRequest();
     httpcicon.onreadystatechange = function(){
@@ -209,7 +269,10 @@ function setup(){
 
 function draw(){
     //p5canvas = document.getElementsByTagName("MAIN")[0].getElementsByTagName("CANVAS");
-        ctx_sticker.drawImage(p5canvas,media.icon.x,media.icon.y,media.icon.width,media.icon.width);    
+        if(media.icon.display){
+            ctx_sticker.drawImage(p5canvas,media.icon.x,media.icon.y,media.icon.width,media.icon.width);                
+        }
+
 }
 
 
@@ -247,7 +310,10 @@ httpcHypercube.onreadystatechange = function(){
                 mainGVM.y0 = currentjson.y0;
                 mainGVM.style.line0 = currentjson.style.line0;
                 mainGVM.drawGlyph(currentjson.glyph);
-                ctx_sticker.drawImage(geometron_canvas, media.geometron.x, media.geometron.y);
+                if(media.geometron.display){
+                    ctx_sticker.drawImage(geometron_canvas, media.geometron.x, media.geometron.y);                    
+                }
+
 
             }
         };
