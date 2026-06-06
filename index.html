@@ -27,16 +27,15 @@
 <img id = "main_image"/>
 <br>
 <a href = "edit-files.html">edit-files.html</a>
-<a href = "readme.html">readme.html</a>
+<a href = "branch.html">branch.html</a>
+<a href ="imagefeed.html">imagefeed.html</a>
 <a href = "sketch-icon.html">sketch-icon.html</a>
 <A HREF = "geometron-icon.html">geometron-icon.html</A>
-<a href = "image-url.html">image-url.html</a>
-<a href = "banner-text.html">banner-text.html</a>
-<a href = "text-array.html">text-array.html</a>
 
 <script>
-
+//https://upload.wikimedia.org/wikipedia/commons/6/68/US_36.svg
 //200,250,180,180
+//https://upload.wikimedia.org/wikipedia/commons/f/f8/Marshall_McLuhan.jpg
 media = {
     "width":400,
     "height":600,
@@ -78,9 +77,10 @@ media = {
     },
     "image":{
         "display":true,
-        "width":120,
-        "x":20,
-        "y":420
+        "url":"https://upload.wikimedia.org/wikipedia/commons/6/68/US_36.svg",
+        "width":160,
+        "x":10,
+        "y":400
     },
     "text":[
         {
@@ -142,6 +142,7 @@ ctx_sticker.drawImage(qrcodecanvas, media.qrcode.x, media.qrcode.y,media.qrcode.
 */
 
 
+
 for(var index = 0;index < media.qrcodes.length;index++){
     if(media.qrcodes[index].url == "self"){
         localurl = window.location.href;
@@ -162,8 +163,6 @@ for(var index = 0;index < media.qrcodes.length;index++){
     qrcodecanvas = newdiv.querySelector("canvas");
     
     ctx_sticker.drawImage(qrcodecanvas, media.qrcodes[index].x, media.qrcodes[index].y,media.qrcodes[index].width,media.qrcodes[index].width);
-    
-
 }
 
 
@@ -213,20 +212,19 @@ httpc.send();
 //image_url = "https://www.trashrobot.net/DIRT-WIZARD/skyline-square.png";
 
 
+/*
 var httpc = new XMLHttpRequest();
 httpc.onreadystatechange = function(){
     if (this.readyState == 4 && this.status == 200) {
         image_url = this.responseText;
         document.getElementById("main_image").src = image_url;
-        if(media.icon.display){
-            ctx_sticker.drawImage(p5canvas,media.icon.x,media.icon.y,media.icon.width,media.icon.width);                
-        }
-
-    
     }
 };
 httpc.open("GET", "load-file.php?filename=image-url.txt", true);
 httpc.send();
+*/
+
+document.getElementById("main_image").src = media.image.url;
 
 main_image = document.getElementById("main_image");
 main_image.onload = function(){
@@ -326,6 +324,13 @@ httpcHypercube.send();
 
 </script>
 <style>
+@media only screen and (orientation: portrait) {
+    #sticker_canvas{
+        width:95%;
+        display:block;
+        margin:auto;
+    }
+}
 a{
     display:block;
     font-size:2em;
