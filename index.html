@@ -239,37 +239,25 @@ main_image.onload = function(){
 
 icon = [];
 
+var httpcicon = new XMLHttpRequest();
+httpcicon.onreadystatechange = function(){
+    if (this.readyState == 4 && this.status == 200) {
+        icon = JSON.parse(this.responseText);
+        createCanvas(380,380);
+        p5canvas = document.getElementsByTagName("MAIN")[0].getElementsByTagName("CANVAS")[0];
+        drawicon();
+    }
+};
+httpcicon.open("GET", "load-file.php?filename=icon.json", true);
+httpcicon.send();
 
 function setup(){
     
-    createCanvas(380,380);
-
-    p5canvas = document.getElementsByTagName("MAIN")[0].getElementsByTagName("CANVAS")[0];
-
-    if(media.icon.display){
-        ctx_sticker.drawImage(p5canvas,media.icon.x,media.icon.y,media.icon.width,media.icon.width);                
-    }
-
-    
-    var httpcicon = new XMLHttpRequest();
-    httpcicon.onreadystatechange = function(){
-        if (this.readyState == 4 && this.status == 200) {
-            icon = JSON.parse(this.responseText);
-            drawicon();
-        }
-    };
-    httpcicon.open("GET", "load-file.php?filename=icon.json", true);
-    httpcicon.send();
-
 }
 
 
 
 function draw(){
-    //p5canvas = document.getElementsByTagName("MAIN")[0].getElementsByTagName("CANVAS");
-        if(media.icon.display){
-            ctx_sticker.drawImage(p5canvas,media.icon.x,media.icon.y,media.icon.width,media.icon.width);                
-        }
 
 }
 
@@ -285,6 +273,10 @@ function drawicon(){
             line(0.01*width*icon[strokeindex].points[pointindex - 1].x,0.01*width*icon[strokeindex].points[pointindex - 1].y,0.01*width*icon[strokeindex].points[pointindex].x,0.01*width*icon[strokeindex].points[pointindex].y);
         }
     }
+    if(media.icon.display){
+        ctx_sticker.drawImage(p5canvas,media.icon.x,media.icon.y,media.icon.width,media.icon.width);                
+    }    
+    
 }
 
 
